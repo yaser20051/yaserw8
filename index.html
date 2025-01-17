@@ -1,24 +1,17 @@
-<!DOCTYPE html>
-<html lang="ar">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>عنوان الصفحة</title>
-    <meta name="generator" content="LibreOffice 24.8.3.2 (Linux)">
-    <meta name="created" content="00:00:00">
-    <meta name="changed" content="00:00:00">
-    <style type="text/css">
-        @page { size: 8.5in 11in; margin: 0.79in }
-        p { line-height: 115%; margin-bottom: 0.1in; background: transparent }
-        pre { background: transparent }
-        pre.western { font-family: "Liberation Mono", monospace; font-size: 10pt }
-        pre.cjk { font-family: "Noto Sans Mono CJK SC", monospace; font-size: 10pt }
-        pre.ctl { font-family: "Liberation Mono", monospace; font-size: 10pt }
-    </style>
-</head>
-<body lang="en-US" link="#000080" vlink="#800000" dir="ltr">
-    <h1>عنوان الصفحة</h1>
-    <div id="imageContainer"></div>
-    <script src="app.js"></script> <!-- تم تصحيح رابط السكربت -->
-</body>
-</html>
+import torch
+from diffusers import FluxPipeline
+
+pipe = FluxPipeline.from_pretrained("black-forest-labs/FLUX.1-dev", torch_dtype=torch.bfloat16)
+pipe.enable_model_cpu_offload() #save some VRAM by offloading the model to CPU. Remove this if you have enough GPU power
+
+prompt = "A cat holding a sign that says hello world"
+image = pipe(
+    prompt,
+    height=1024,
+    width=1024,
+    guidance_scale=3.5,
+    num_inference_steps=50,
+    max_sequence_length=512,
+    generator=torch.Generator("cpu").manual_seed(0)
+).images[0]
+image.save("flux-dev.png")
