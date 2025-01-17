@@ -1,17 +1,15 @@
 import torch
-from diffusers import FluxPipeline
+from diffusers import StableDiffusionPipeline
 
-pipe = FluxPipeline.from_pretrained("black-forest-labs/FLUX.1-dev", torch_dtype=torch.bfloat16)
-pipe.enable_model_cpu_offload() #save some VRAM by offloading the model to CPU. Remove this if you have enough GPU power
+# تحميل النموذج
+pipe = StableDiffusionPipeline.from_pretrained("CompVis/stable-diffusion-v1-4-original", torch_dtype=torch.float16)
+pipe.to("cuda")  # تأكد من أنك تستخدم GPU إذا كان متاحاً
 
-prompt = "A cat holding a sign that says hello world"
-image = pipe(
-    prompt,
-    height=1024,
-    width=1024,
-    guidance_scale=3.5,
-    num_inference_steps=50,
-    max_sequence_length=512,
-    generator=torch.Generator("cpu").manual_seed(0)
-).images[0]
-image.save("flux-dev.png")
+# تعريف الوصف الذي تريده
+prompt = "A futuristic city at sunset"
+
+# توليد الصورة
+image = pipe(prompt).images[0]
+
+# حفظ الصورة الناتجة
+image.save("generated_image.png")
