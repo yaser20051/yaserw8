@@ -15,19 +15,24 @@ async function generateImage() {
             },
         });
 
-        const blob = response; // تحويل الاستجابة إلى Blob
+        // تحقق مما إذا كانت الاستجابة تحتوي على بيانات الصورة
+        if (response && response.data) {
+            const blob = await fetch(response.data).then(res => res.blob()); // تحويل الاستجابة إلى Blob
 
-        // إنشاء URL من Blob
-        const imgUrl = URL.createObjectURL(blob);
+            // إنشاء URL من Blob
+            const imgUrl = URL.createObjectURL(blob);
 
-        // إنشاء عنصر الصورة
-        const imgElement = document.createElement('img');
-        imgElement.src = imgUrl;
-        imgElement.alt = "Generated Image"; // تعيين النص البديل للصورة
+            // إنشاء عنصر الصورة
+            const imgElement = document.createElement('img');
+            imgElement.src = imgUrl;
+            imgElement.alt = "Generated Image"; // تعيين النص البديل للصورة
 
-        // إضافة الصورة إلى الحاوية
-        const imageContainer = document.getElementById('imageContainer');
-        imageContainer.appendChild(imgElement);
+            // إضافة الصورة إلى الحاوية
+            const imageContainer = document.getElementById('imageContainer');
+            imageContainer.appendChild(imgElement);
+        } else {
+            console.error("Invalid response format:", response);
+        }
 
     } catch (error) {
         console.error("Error generating image:", error);

@@ -1,0 +1,13 @@
+{
+    "compilerOptions": {
+      "target": "es6", // الهدف من التحويل (مثل es5, es6)
+      "module": "commonjs", // نوع الوحدة (مثل commonjs, esnext)
+      "strict": true, // تفعيل وضع صارم
+      "esModuleInterop": true, // تفعيل التوافق مع ES Modules
+      "skipLibCheck": true, // تخطي التحقق من المكتبات
+      "forceConsistentCasingInFileNames": true // الحفاظ على حالة الأسماء
+    },
+    "include": ["src/**/*.ts"], // تضمين جميع ملفات TypeScript في مجلد src
+    "exclude": ["node_modules"] // استبعاد مجلد node_modules
+  }
+  

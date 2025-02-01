@@ -39,10 +39,13 @@
   },
   "type": "module",
   "dependencies": {
+    "@huggingface/inference": "^3.1.5",
     "@huggingface/tasks": "^0.12.9"
   },
   "devDependencies": {
-    "@types/node": "18.13.0"
+    "@types/node": "18.13.0",
+    "tsup": "^8.3.6",
+    "typescript": "^5.7.3"
   },
   "resolutions": {},
   "scripts": {
